@@ -3,6 +3,8 @@ package contactos;
 import java.io.BufferedReader;
 import java.io.IOException;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 public class Lista {
@@ -83,8 +85,74 @@ public class Lista {
             apuntador = apuntador.siguiente;
         }
         DefaultTableModel dtm = new DefaultTableModel(datos, encabezados);
+
+        //agregar el evento de modificacion de datos
+        dtm.addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                //obtener el modelo de datos de la tabla editada
+                DefaultTableModel dtm = (DefaultTableModel) e.getSource();
+                //obtener la posicion de la fila editada
+                int posicion = e.getFirstRow();
+                //obetner los valores de la fila editada
+                String nombre = (String) dtm.getValueAt(posicion, 0);
+                String telefono = (String) dtm.getValueAt(posicion, 1);
+                String celular = (String) dtm.getValueAt(posicion, 2);
+                String direccion = (String) dtm.getValueAt(posicion, 3);
+                String correo = (String) dtm.getValueAt(posicion, 4);
+
+                actualizar(posicion, nombre, telefono, celular, direccion, correo);
+            }
+        });
+
         tbl.setModel(dtm);
 
+    }
+
+    public Nodo obtenerNodo(int posicion) {
+        int p = 0;
+        Nodo apuntador = cabeza;
+        while (apuntador != null) {
+            if (p == posicion) {
+                return apuntador;
+            }
+            apuntador = apuntador.siguiente;
+            p++;
+        }
+        return null;
+    }
+
+    public void actualizar(int posicion,
+            String nombre,
+            String telefono,
+            String celular,
+            String direccion,
+            String correo) {
+        Nodo n = obtenerNodo(posicion);
+        if (n != null) {
+            n.actualizar(nombre, telefono, celular, direccion, correo);
+        }
+    }
+
+    public boolean guardar(String nombreArchivo) {
+        int totalLineas = obtenerLongitud();
+        if (totalLineas > 0) {
+            String[] lineas = new String[totalLineas];
+            Nodo apuntador = cabeza;
+            int i = 0;
+            while (apuntador != null) {
+                lineas[i] = (apuntador.nombre.isEmpty() ? " " : apuntador.nombre) + "\t"
+                        + (apuntador.telefono.isEmpty() ? " " : apuntador.telefono) + "\t"
+                        + (apuntador.celular.isEmpty() ? " " : apuntador.celular) + "\t"
+                        + (apuntador.direccion.isEmpty() ? " " : apuntador.direccion) + "\t"
+                        + (apuntador.correo.isEmpty() ? " " : apuntador.correo);
+                apuntador = apuntador.siguiente;
+                i++;
+            }
+            return Archivo.guardarArchivo(nombreArchivo, lineas);
+        }
+        return false;
     }
 
 }

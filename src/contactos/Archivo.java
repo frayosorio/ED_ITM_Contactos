@@ -1,8 +1,10 @@
 package contactos;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Archivo {
@@ -35,5 +37,35 @@ public class Archivo {
             return null;
         }
     }//abrirArchivo
+
+    // Método estático para guardar archivos planos dado un conjunto de líneas
+    public static boolean guardarArchivo(String nombreArchivo, String[] lineas) {
+        if (lineas != null) {
+            /*
+             * captura de error estructurada. Intenta realizar la instrucción de
+             * escritura del archivo. Es susceptible de no poder realizarse
+             */
+            try {
+                //Abrir el archivo para escritura
+                BufferedWriter bw = new BufferedWriter(new FileWriter(nombreArchivo));
+                for (int i = 0; i < lineas.length; i++) {
+                    //Guardar cada linea
+                    bw.write(lineas[i]);
+                    bw.newLine();
+                }
+                //Cerrar el archivo
+                bw.close();
+                return true;
+            } catch (IOException e) {
+                /*
+                 * Sucedió un error que se captura mediante la clase IOException
+                 * encargada de manipular errores de entrada y salida
+                 */
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
 }

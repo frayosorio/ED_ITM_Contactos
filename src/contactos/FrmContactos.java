@@ -5,6 +5,8 @@
  */
 package contactos;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author USUARIO
@@ -16,9 +18,9 @@ public class FrmContactos extends javax.swing.JFrame {
     public FrmContactos() {
         initComponents();
 
-        String nombreArchivo = System.getProperty("user.dir")+"/src/datos/Datos.txt";
+        String nombreArchivo = System.getProperty("user.dir") + "/src/datos/Datos.txt";
         l.desdeArchivo(nombreArchivo);
-        
+
         l.mostrar(tbl);
     }
 
@@ -49,6 +51,11 @@ public class FrmContactos extends javax.swing.JFrame {
         btnAgregar.setFocusable(false);
         btnAgregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAgregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnAgregar);
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Eliminar.gif"))); // NOI18N
@@ -63,6 +70,11 @@ public class FrmContactos extends javax.swing.JFrame {
         btnGuardar.setFocusable(false);
         btnGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnGuardar);
 
         btnOrdenar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Ordenar.gif"))); // NOI18N
@@ -101,6 +113,21 @@ public class FrmContactos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        Nodo n = new Nodo("", "", "", "", "");
+        l.agregar(n);
+        l.mostrar(tbl);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String nombreArchivo = System.getProperty("user.dir") + "/src/datos/Datos.txt";
+        if (l.guardar(nombreArchivo)) {
+            JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudieron guardar los cambios");
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
