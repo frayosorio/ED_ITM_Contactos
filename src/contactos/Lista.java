@@ -155,4 +155,18 @@ public class Lista {
         return false;
     }
 
+    public void eliminar(Nodo n) {
+        if (n != null) {
+            if (n == cabeza) {
+                cabeza = cabeza.siguiente;
+            } else {
+                Nodo apuntador = cabeza;
+                while (apuntador.siguiente != n) {
+                    apuntador = apuntador.siguiente;
+                }
+                apuntador.siguiente = n.siguiente;
+            }
+        }
+    }
+    
 }

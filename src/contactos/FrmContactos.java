@@ -63,6 +63,11 @@ public class FrmContactos extends javax.swing.JFrame {
         btnEliminar.setFocusable(false);
         btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnEliminar);
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Guardar.gif"))); // NOI18N
@@ -128,6 +133,15 @@ public class FrmContactos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se pudieron guardar los cambios");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (tbl.getSelectedRow() >= 0) {
+            l.eliminar(l.obtenerNodo(tbl.getSelectedRow()));
+            l.mostrar(tbl);
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un contacto");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
